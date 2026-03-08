@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Just Say Hello</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="dark-theme">
+
+    <div class="discord-sidebar" id="sidebar">
+        <div style="padding: 20px; font-weight: 800; opacity: 0.3; font-size: 0.7rem; letter-spacing: 2px;">DIRECT MESSAGES</div>
+        <div id="chat-flow"></div>
+        <div id="typing" class="typing-indicator" style="padding: 0 20px 20px 20px;"></div>
+    </div>
+
+    <div class="main-content" id="main-ui">
+        <div class="container">
+            <h1 id="title"></h1>
+            <p id="desc"></p>
+            <div class="cta-box">
+                <button class="cta" id="cta-btn" onclick="giveWarmth(event)"></button>
+                <div id="wave" class="warmth-wave"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="controls">
+        <div class="btn-ui" onclick="toggleTheme()">Theme</div>
+        <div class="btn-ui" onclick="toggleLang()">EN / RU</div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
