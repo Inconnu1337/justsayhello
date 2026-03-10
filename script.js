@@ -41,6 +41,7 @@ function glitchChar() {
     return GLITCH_CHARS[Math.floor(Math.random() * GLITCH_CHARS.length)];
 }
 
+
 function addCrack(btn, level) {
     const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
     svg.classList.add('crack-svg');
