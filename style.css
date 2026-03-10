@@ -106,12 +106,18 @@ p { color: var(--secondary-text); margin-bottom: 40px; font-size: 1.1rem; line-h
     border-radius: 50px;
     font-weight: 600;
     cursor: pointer;
-    transition: 0.3s;
+    transition: background 0.3s, color 0.3s;
     position: relative;
     z-index: 5;
     font-family: inherit;
+    overflow: visible;
 }
 .cta:hover { background: var(--accent-color); color: white; }
+
+.cta.breaking:hover {
+    background: transparent;
+    color: inherit;
+}
 
 .warmth-wave {
     position: absolute;
@@ -143,3 +149,55 @@ p { color: var(--secondary-text); margin-bottom: 40px; font-size: 1.1rem; line-h
 
 .particle { position: fixed; pointer-events: none; z-index: 100; animation: fly 1.2s ease-out forwards; font-size: 1.5rem; }
 @keyframes fly { to { transform: translate(var(--x), var(--y)) rotate(20deg); opacity: 0; } }
+
+.crack-svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    overflow: visible;
+    z-index: 10;
+    animation: crackAppear 0.15s ease forwards;
+}
+
+@keyframes crackAppear {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+@keyframes glitchTwitch {
+    0%   { clip-path: inset(0 0 90% 0); transform: skewX(-4deg); }
+    10%  { clip-path: inset(30% 0 50% 0); transform: skewX(3deg); }
+    30%  { clip-path: inset(70% 0 10% 0); transform: skewX(-2deg); }
+    50%  { clip-path: inset(40% 0 60% 0); transform: skewX(4deg); }
+    70%  { clip-path: inset(0 0 80% 0); transform: skewX(-3deg); }
+    100% { clip-path: inset(0 0 0 0); transform: skewX(0); }
+}
+
+@keyframes fadeInGame {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+@keyframes vignetteWarning {
+    0%, 100% { box-shadow: inset 0 0 0px rgba(255,0,0,0); }
+    50%       { box-shadow: inset 0 0 80px rgba(255,0,0,0.25); }
+}
+
+body.breaking-active {
+    animation: vignetteWarning 0.6s ease infinite;
+}
+
+@keyframes screenShake {
+    0%   { transform: translate(0, 0) rotate(0); }
+    20%  { transform: translate(-3px, 2px) rotate(-0.5deg); }
+    40%  { transform: translate(3px, -2px) rotate(0.5deg); }
+    60%  { transform: translate(-2px, 3px) rotate(-0.3deg); }
+    80%  { transform: translate(2px, -1px) rotate(0.3deg); }
+    100% { transform: translate(0, 0) rotate(0); }
+}
+
+body.screen-shake {
+    animation: screenShake 0.15s ease;
+}
