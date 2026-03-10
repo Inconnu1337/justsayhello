@@ -42,7 +42,7 @@ function glitchChar() {
 }
 
 function addCrack(btn, level) {
-    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    const svg = document.createElementNS('https://www.w3.org/2000/svg', 'svg');
     svg.classList.add('crack-svg');
     const w = btn.offsetWidth, h = btn.offsetHeight;
     svg.setAttribute('viewBox', `0 0 ${w} ${h}`);
@@ -50,7 +50,7 @@ function addCrack(btn, level) {
 
     const count = level;
     for (let i = 0; i < count; i++) {
-        const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        const path = document.createElementNS('https://www.w3.org/2000/svg', 'path');
         const startX = Math.random() * w;
         const startY = Math.random() * h;
         let d = `M ${startX} ${startY}`;
@@ -266,7 +266,7 @@ function showGame() {
         : '* You are going to have a bad time.';
 
     const iframe = document.createElement('iframe');
-    iframe.src = 'http://jcw87.github.io/c2-sans-fight/';
+    iframe.src = 'https://jcw87.github.io/c2-sans-fight/';
     iframe.style.cssText = `
         width: min(800px, 95vw);
         height: min(600px, 80vh);
