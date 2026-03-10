@@ -19,6 +19,13 @@
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
+* {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
 body {
     font-family: 'Inter', sans-serif;
     background-color: var(--bg-color);
@@ -64,18 +71,16 @@ body {
     font-style: italic;
 }
 
-.msg {
-    padding: 8px 12px;
+.msg-canvas {
     border-radius: 8px;
-    font-size: 0.85rem;
     max-width: 85%;
     animation: msgAppear 0.3s ease forwards;
-    line-height: 1.4;
+    display: block;
 }
 
-.msg.me { background: var(--accent-color); color: white; align-self: flex-start; }
-.msg.inconnu { background: var(--discord-msg-bg); color: var(--text-color); align-self: flex-start; }
-.msg.blurred { filter: blur(4px); opacity: 0.3; transform: scale(0.9); }
+.msg-canvas.me { align-self: flex-start; }
+.msg-canvas.inconnu { align-self: flex-start; }
+.msg-canvas.blurred { filter: blur(4px); opacity: 0.3; transform: scale(0.9); }
 
 .main-content {
     width: 100%;

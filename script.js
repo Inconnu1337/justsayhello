@@ -6,7 +6,7 @@ const typing = document.getElementById('typing');
 const translations = {
     en: {
         title: "Just say hello",
-        desc: "Don't wait for a reason. Don't worry about being a distraction. A simple greeting builds bridges and brightens days",
+        desc: "Don't wait for a reason and don't worry about being a distraction. A simple greeting builds bridges and brightens days",
         cta: "Spread the warmth",
         typing: "Inconnu is typing...",
         me: "You",
@@ -15,7 +15,7 @@ const translations = {
     },
     ru: {
         title: "Просто скажи «привет»",
-        desc: "Не жди повода. Не бойся отвлечь. Простое приветствие строит мосты и делает день чуточку лучше",
+        desc: "Не жди повода и не бойся отвлечь. Простое приветствие строит мосты и делает день чуточку лучше",
         cta: "Дари тепло",
         typing: "Inconnu печатает...",
         me: "Ты",
@@ -24,11 +24,15 @@ const translations = {
     }
 };
 
-const randomWords = ["привет","тепло","bridge","story","vibe","sky","connection","smile","moment","kindness","light"];
+const randomWords = ["привет","тепло","пжбпжб","пжб","пжб3005","пэжэбэ","фейкпжб","рулет","вкусный","не очень","колбаса"];
 
 let currentLang = localStorage.getItem('pref-lang');
 if (!currentLang) {
     currentLang = navigator.language.includes('ru') ? 'ru' : 'en';
+}
+
+function getCSSVar(name) {
+    return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
 }
 
 function updateUI() {
@@ -37,6 +41,94 @@ function updateUI() {
     document.getElementById('desc').innerText = t.desc;
     document.getElementById('cta-btn').innerText = t.cta;
     typing.innerText = t.typing;
+}
+
+function addMsg(author, text, type, blur = false) {
+    const isDark = document.body.classList.contains('dark-theme');
+
+    const font = '13px Inter, sans-serif';
+    const padding = { x: 12, y: 8 };
+    const maxWidth = 220;
+    const lineHeight = 18;
+    const authorFont = 'bold 13px Inter, sans-serif';
+
+    const tmp = document.createElement('canvas');
+    const tc = tmp.getContext('2d');
+
+    tc.font = font;
+    const words = text.split(' ');
+    const lines = [];
+    let line = '';
+    for (const w of words) {
+        const test = line ? line + ' ' + w : w;
+        if (tc.measureText(test).width > maxWidth) {
+            if (line) lines.push(line);
+            line = w;
+        } else {
+            line = test;
+        }
+    }
+    if (line) lines.push(line);
+
+    tc.font = authorFont;
+    const authorWidth = tc.measureText(author).width;
+    tc.font = font;
+    const maxLineWidth = Math.max(authorWidth, ...lines.map(l => tc.measureText(l).width));
+
+    const canvasW = Math.ceil(maxLineWidth + padding.x * 2);
+    const canvasH = Math.ceil(padding.y * 2 + lineHeight + lines.length * lineHeight);
+
+    const canvas = document.createElement('canvas');
+    canvas.width = canvasW;
+    canvas.height = canvasH;
+    const dpr = window.devicePixelRatio || 1;
+    canvas.width = canvasW * dpr;
+    canvas.height = canvasH * dpr;
+    canvas.style.width = canvasW + 'px';
+    canvas.style.height = canvasH + 'px';
+    canvas.className = `msg-canvas ${type}${blur ? ' blurred' : ''}`;
+
+    const ctx = canvas.getContext('2d');
+    ctx.scale(dpr, dpr);
+
+    const bgColor = type === 'me'
+        ? (isDark ? '#0a84ff' : '#0071e3')
+        : (isDark ? '#313338' : '#e3e5e8');
+
+    const r = 8;
+    ctx.beginPath();
+    ctx.moveTo(r, 0);
+    ctx.lineTo(canvasW - r, 0);
+    ctx.quadraticCurveTo(canvasW, 0, canvasW, r);
+    ctx.lineTo(canvasW, canvasH - r);
+    ctx.quadraticCurveTo(canvasW, canvasH, canvasW - r, canvasH);
+    ctx.lineTo(r, canvasH);
+    ctx.quadraticCurveTo(0, canvasH, 0, canvasH - r);
+    ctx.lineTo(0, r);
+    ctx.quadraticCurveTo(0, 0, r, 0);
+    ctx.closePath();
+    ctx.fillStyle = bgColor;
+    ctx.fill();
+
+    ctx.font = authorFont;
+    ctx.fillStyle = type === 'me' ? 'rgba(255,255,255,0.7)' : (isDark ? '#a1a1a6' : '#86868b');
+    ctx.fillText(author, padding.x, padding.y + lineHeight - 4);
+
+    ctx.font = font;
+    ctx.fillStyle = type === 'me' ? '#ffffff' : (isDark ? '#f5f5f7' : '#1d1d1f');
+    lines.forEach((l, i) => {
+        ctx.fillText(l, padding.x, padding.y + lineHeight + (i + 1) * lineHeight - 4);
+    });
+
+    chatFlow.appendChild(canvas);
+    chatFlow.scrollTop = chatFlow.scrollHeight;
+}
+
+function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+
+async function closeSidebar() {
+    sidebar.classList.remove('visible');
+    mainUi.classList.remove('shifted');
 }
 
 async function startChat() {
@@ -62,17 +154,10 @@ async function startChat() {
             true
         );
     }
-}
 
-function addMsg(author, text, type, blur = false) {
-    const d = document.createElement('div');
-    d.className = `msg ${type} ${blur ? 'blurred' : ''}`;
-    d.innerHTML = `<strong>${author}</strong><br>${text}`;
-    chatFlow.appendChild(d);
-    chatFlow.scrollTop = chatFlow.scrollHeight;
+    await sleep(800);
+    closeSidebar();
 }
-
-function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
 
 function giveWarmth(e) {
     const w = document.getElementById('wave');
