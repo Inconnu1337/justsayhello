@@ -50,7 +50,7 @@ function addCrack(btn, level) {
 
     const count = level;
     for (let i = 0; i < count; i++) {
-        const path = document.createElementNS('https://www.w3.org/2000/svg', 'path');
+        const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
         const startX = Math.random() * w;
         const startY = Math.random() * h;
         let d = `M ${startX} ${startY}`;
@@ -94,7 +94,6 @@ function stopGlitchText(btn, originalText) {
 
 function applyBreakStage(btn, stage) {
     const t = translations[currentLang];
-
     btn.querySelectorAll('.crack-svg').forEach(el => el.remove());
 
     const intensity = stage / (BREAK_END - BREAK_START);
@@ -131,7 +130,7 @@ function applyBreakStage(btn, stage) {
 
     document.body.classList.add('breaking-active');
     document.body.classList.remove('screen-shake');
-    void document.body.offsetWidth;
+    void document.body.offsetWidth; 
     document.body.classList.add('screen-shake');
     setTimeout(() => document.body.classList.remove('screen-shake'), 200);
 }
@@ -174,7 +173,6 @@ async function launchSansFight() {
     shatterScreen();
 
     await sleep(1200);
-
     showGame();
 }
 
@@ -237,27 +235,21 @@ function shatterScreen() {
 }
 
 function showGame() {
-    document.getElementById('main-ui').style.display = 'none';
-    document.getElementById('sidebar').style.display = 'none';
-    document.querySelector('.controls').style.display = 'none';
-
-    const gameWrapper = document.createElement('div');
-    gameWrapper.id = 'game-wrapper';
-    gameWrapper.style.cssText = `
+    const overlay = document.createElement('div');
+    overlay.style.cssText = `
         position:fixed; inset:0; z-index:9999;
         background:black;
-        display:flex; flex-direction:column; align-items:center; justify-content:center;
-        animation: fadeInGame 0.8s ease forwards;
+        display:flex; align-items:center; justify-content:center;
+        animation: fadeInGame 0.4s ease forwards;
     `;
 
     const warning = document.createElement('div');
     warning.style.cssText = `
-        font-family: 'Determination Mono', 'Courier New', monospace;
+        font-family: 'Courier New', monospace;
         color: #ffffff;
-        font-size: clamp(16px, 3vw, 24px);
+        font-size: clamp(14px, 2.5vw, 22px);
         text-align: center;
         letter-spacing: 2px;
-        margin-bottom: 30px;
         opacity: 0;
         animation: fadeInGame 0.5s ease 0.3s forwards;
     `;
@@ -265,51 +257,12 @@ function showGame() {
         ? '* Ты собираешься иметь плохое время.'
         : '* You are going to have a bad time.';
 
-    const iframe = document.createElement('iframe');
-    iframe.src = 'https://jcw87.github.io/c2-sans-fight/';
-    iframe.style.cssText = `
-        width: min(800px, 95vw);
-        height: min(600px, 80vh);
-        border: 2px solid #333;
-        border-radius: 4px;
-        opacity: 0;
-        animation: fadeInGame 0.5s ease 0.8s forwards;
-    `;
-    iframe.allow = 'autoplay';
-    iframe.setAttribute('allowfullscreen', '');
+    overlay.appendChild(warning);
+    document.body.appendChild(overlay);
 
-    const backBtn = document.createElement('button');
-    backBtn.textContent = currentLang === 'ru' ? '← Назад' : '← Back';
-    backBtn.style.cssText = `
-        margin-top: 16px;
-        background: transparent;
-        border: 1px solid rgba(255,255,255,0.2);
-        color: rgba(255,255,255,0.4);
-        padding: 8px 24px;
-        border-radius: 4px;
-        cursor: pointer;
-        font-family: inherit;
-        font-size: 12px;
-        letter-spacing: 2px;
-        text-transform: uppercase;
-        transition: all 0.3s;
-        opacity: 0;
-        animation: fadeInGame 0.5s ease 1s forwards;
-    `;
-    backBtn.onmouseenter = () => { backBtn.style.borderColor = 'rgba(255,255,255,0.6)'; backBtn.style.color = 'rgba(255,255,255,0.8)'; };
-    backBtn.onmouseleave = () => { backBtn.style.borderColor = 'rgba(255,255,255,0.2)'; backBtn.style.color = 'rgba(255,255,255,0.4)'; };
-    backBtn.onclick = () => {
-        gameWrapper.remove();
-        document.getElementById('main-ui').style.display = '';
-        document.getElementById('sidebar').style.display = '';
-        document.querySelector('.controls').style.display = '';
-        resetButton();
-    };
-
-    gameWrapper.appendChild(warning);
-    gameWrapper.appendChild(iframe);
-    gameWrapper.appendChild(backBtn);
-    document.body.appendChild(gameWrapper);
+    setTimeout(() => {
+        window.location.href = 'https://jcw87.github.io/c2-sans-fight/';
+    }, 1800);
 }
 
 function resetButton() {
