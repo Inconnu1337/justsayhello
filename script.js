@@ -43,17 +43,26 @@ function glitchChar() {
 
 
 function addCrack(btn, level) {
+    if (!btn) return; 
     const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
     svg.classList.add('crack-svg');
     const w = btn.offsetWidth, h = btn.offsetHeight;
     svg.setAttribute('viewBox', `0 0 ${w} ${h}`);
-    svg.style.cssText = `position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible;border-radius:50px;`;
+    
+    svg.setAttribute('style', `
+        position:absolute;
+        inset:0;
+        width:100%;
+        height:100%;
+        pointer-events:none;
+        overflow:visible;
+        border-radius:50px;
+    `);
 
     const count = level;
     for (let i = 0; i < count; i++) {
         const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-        const startX = Math.random() * w;
-        const startY = Math.random() * h;
+        let startX = Math.random() * w, startY = Math.random() * h;
         let d = `M ${startX} ${startY}`;
         let cx = startX, cy = startY;
         const segments = 3 + Math.floor(Math.random() * 4);
