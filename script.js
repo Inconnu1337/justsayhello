@@ -42,7 +42,7 @@ function glitchChar() {
 }
 
 function addCrack(btn, level) {
-    const svg = document.createElementNS('https://www.w3.org/2000/svg', 'svg');
+    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
     svg.classList.add('crack-svg');
     const w = btn.offsetWidth, h = btn.offsetHeight;
     svg.setAttribute('viewBox', `0 0 ${w} ${h}`);
