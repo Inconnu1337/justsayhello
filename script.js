@@ -2,7 +2,7 @@ const chatFlow = document.getElementById('chat-flow');
 const sidebar = document.getElementById('sidebar');
 const mainUi = document.getElementById('main-ui');
 const typing = document.getElementById('typing');
-const pathName = window.location.pathname.slice(1) || "Inconnu";
+const pathName = location.hash.slice(2) || "inconnu";
 
 const translations = {
     en: {
