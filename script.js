@@ -2,13 +2,14 @@ const chatFlow = document.getElementById('chat-flow');
 const sidebar = document.getElementById('sidebar');
 const mainUi = document.getElementById('main-ui');
 const typing = document.getElementById('typing');
+const pathName = window.location.pathname.slice(1) || "Inconnu";
 
 const translations = {
     en: {
         title: "Just say hello",
         desc: "Don't wait for a reason and don't worry about being a distraction. A simple greeting builds bridges and brightens days",
         cta: "Spread the warmth",
-        typing: "Inconnu is typing...",
+        typing: `${pathName} is typing...`,
         me: "You",
         msg1: "Hi, how are you?",
         msg2: "Hey, feeling a bit lonely today, thanks for reaching out"
@@ -17,7 +18,7 @@ const translations = {
         title: "Просто скажи «привет»",
         desc: "Не жди повода и не бойся отвлечь. Простое приветствие строит мосты и делает день чуточку лучше",
         cta: "Дари тепло",
-        typing: "Inconnu печатает...",
+        typing: `${pathName} печатает...`,
         me: "Ты",
         msg1: "Привет, как дела?",
         msg2: "Привет, одиноко сегодня, спасибо что написал"
@@ -405,15 +406,15 @@ async function startChat() {
     typing.style.display = 'block';
     await sleep(2000);
     typing.style.display = 'none';
-    addMsg("Inconnu", t.msg2, "inconnu");
+    addMsg(pathName, t.msg2, pathName.toLowerCase());
     await sleep(3500);
     for (let i = 0; i < 60; i++) {
         await sleep(40);
         const isMe = Math.random() > 0.5;
         addMsg(
-            isMe ? t.me : "Inconnu",
+            isMe ? t.me : pathName,
             Array(Math.floor(Math.random()*5)+2).fill(0).map(() => randomWords[Math.floor(Math.random()*randomWords.length)]).join(" "),
-            isMe ? "me" : "inconnu",
+            isMe ? "me" : pathName.toLowerCase(),
             true
         );
     }
